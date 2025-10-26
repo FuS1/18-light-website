@@ -447,7 +447,7 @@
             
             window.mcCallback = function(data) {
                 if (data.result === "success") {
-                    status.textContent = "✅ 感謝訂閱！請至信箱確認。";
+                    status.textContent = "✅ 感謝訂閱！";
                     status.style.color = "green";
                 } else {
                     status.textContent = "❌ 發送失敗：" + (data.msg || "請稍後再試");

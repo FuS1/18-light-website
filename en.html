@@ -447,7 +447,7 @@
             
             window.mcCallback = function(data) {
                 if (data.result === "success") {
-                    status.textContent = "✅ Thank you for subscribing! Please check your inbox to confirm.";
+                    status.textContent = "✅ Thank you for subscribing! ";
                     status.style.color = "green";
                 } else {
                     status.textContent = "❌ Subscription failed: " + (data.msg || "Please try again later.");
