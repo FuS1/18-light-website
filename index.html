@@ -170,12 +170,12 @@
                         <div id="mc_embed_signup_scroll">
                             <div class="mc-field-group">
                                 <label for="mce-EMAIL"><figure class="form-label-ico email"></figure><!--<span class="asterisk">*</span>--></label>
-                                <input type="email" name="EMAIL" id="mce-EMAIL" required placeholder="輸入您的 Email (必填)">
+                                <input type="email" name="EMAIL" id="mce-EMAIL" required placeholder="輸入您的 Email">
                             </div>
 
                             <div class="mc-field-group">
                                 <label for="mce-LNAME"><figure class="form-label-ico name"></figure></label>
-                                <input type="text" name="LNAME" id="mce-LNAME" placeholder="您的姓氏">
+                                <input type="text" name="LNAME" id="mce-LNAME" placeholder="您的名字 / 暱稱">
                             </div>
 
                             <div class="mc-field-group">
@@ -443,7 +443,7 @@
 
             // 利用 JSONP 呼叫 Mailchimp
             const script = document.createElement("script");
-            script.src = `${url}&EMAIL=${encodeURIComponent(email)}&LNAME=${encodeURIComponent(lname)}&PHONE=${encodeURIComponent(phone)}&TAGS=${encodeURIComponent("115")}`;
+            script.src = `${url}&EMAIL=${encodeURIComponent(email)}&LNAME=${encodeURIComponent(lname)}&PHONE=${encodeURIComponent(phone)}&TAGS=${encodeURIComponent("115")}&c=mcCallback`;
             
             window.mcCallback = function(data) {
                 if (data.result === "success") {
@@ -457,7 +457,6 @@
             };
             
             // Mailchimp JSONP 需要 callback 參數
-            script.src += "&c=mcCallback";
             document.body.appendChild(script);
         });
     </script>
