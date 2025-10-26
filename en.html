@@ -448,7 +448,7 @@
 
             // 利用 JSONP 呼叫 Mailchimp
             const script = document.createElement("script");
-            script.src = `${url}&EMAIL=${encodeURIComponent(email)}&LNAME=${encodeURIComponent(lname)}&PHONE=${encodeURIComponent(phone)}&TAGS=${encodeURIComponent("115")}&c=mcCallback`;
+            script.src = `${url}&EMAIL=${encodeURIComponent(email)}&LNAME=${encodeURIComponent(lname)}&PHONE=${encodeURIComponent(phone)}&tags=${encodeURIComponent("115")}&c=mcCallback`;
             
             window.mcCallback = function(data) {
                 if (data.result === "success") {

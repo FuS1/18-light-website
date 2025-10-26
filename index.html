@@ -435,6 +435,11 @@
             const phone = document.getElementById("mce-PHONE").value;
             const status = document.getElementById("mc-status");
 
+            if(email==""){
+                alert("Email必填");
+                return
+            }
+
             // ⚠️ 改成你的 Mailchimp JSONP endpoint (注意是 post-json，不是 post)
             const url = "https://gmail.us22.list-manage.com/subscribe/post-json?u=d2dafc0aa1da36bc830a8dcc2&id=2633d14e4a&c=?";
 
@@ -443,7 +448,7 @@
 
             // 利用 JSONP 呼叫 Mailchimp
             const script = document.createElement("script");
-            script.src = `${url}&EMAIL=${encodeURIComponent(email)}&LNAME=${encodeURIComponent(lname)}&PHONE=${encodeURIComponent(phone)}&TAGS=${encodeURIComponent("115")}&c=mcCallback`;
+            script.src = `${url}&EMAIL=${encodeURIComponent(email)}&LNAME=${encodeURIComponent(lname)}&PHONE=${encodeURIComponent(phone)}&tags=${encodeURIComponent("115")}&c=mcCallback`;
             
             window.mcCallback = function(data) {
                 if (data.result === "success") {
