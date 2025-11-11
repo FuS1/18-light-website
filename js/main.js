@@ -1,218 +1,96 @@
+let mainSwiper, previewSwiper, youtubePlayer;
+
+// === YouTube API Ready ===
+function onYouTubeIframeAPIReady() {
+  youtubePlayer = new YT.Player("youtubePlayer", {
+    events: {
+      onStateChange: onPlayerStateChange,
+    },
+  });
+}
+
+function onPlayerStateChange(event) {
+  if (event.data === YT.PlayerState.PLAYING) {
+    if (mainSwiper && mainSwiper.autoplay.running) {
+      mainSwiper.autoplay.stop();
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  // === Preview Swiper ===
+  previewSwiper = new Swiper(".game-page-slider-preview", {
+    loop: false,
+    slidesPerView: 10,
+    spaceBetween: 10,
+    centeredSlides: true,
+    watchSlidesProgress: true,
+    slideToClickedSlide: true,
+    freeMode: false,
+    breakpoints: {
+      0: { slidesPerView: 3 },
+      768: { slidesPerView: 5 },
+      1200: { slidesPerView: 10 },
+    },
+  });
+
+  // === Main Swiper ===
+  mainSwiper = new Swiper(".topic-sec.game-page-sec", {
+    slidesPerView: 1,
+    loop: false,
+    speed: 600,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+    on: {
+      slideChange: function () {
+        syncPreviewActive(this.realIndex);
+      },
+    },
+  });
+
+  // === Click Preview to Switch ===
+  previewSwiper.on("click", (swiper) => {
+    const clickedIndex = swiper.clickedIndex;
+    if (typeof clickedIndex !== "undefined") {
+      mainSwiper.slideToLoop(clickedIndex);
+      stopAutoplay();
+      syncPreviewActive(clickedIndex);
+    }
+  });
+
+  function syncPreviewActive(index) {
+    previewSwiper.slides.forEach((slide, i) => {
+      slide.classList.toggle("active", i % previewSwiper.slides.length === index);
+    });
+    previewSwiper.slideToLoop(index);
+  }
+
+  function stopAutoplay() {
+    if (mainSwiper.autoplay.running) {
+      mainSwiper.autoplay.stop();
+    }
+  }
+
+  [mainSwiper.el, previewSwiper.el].forEach((el) => {
+    el.addEventListener("mousedown", stopAutoplay);
+    el.addEventListener("touchstart", stopAutoplay);
+  });
+
+  syncPreviewActive(0);
+});
+
+// Effect
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const sections = document.querySelectorAll(".topic-sec");
-const dotNav = document.querySelector(".dot-nav");
+// const dotNav = document.querySelector(".dot-nav");
 const toolSec = document.querySelector(".tool-sec");
 
 let currentSection = 0;
 let isAnimating = false;
 let isDesktop = window.innerWidth > 767.98;
-
-// === NaviDots ===
-sections.forEach((_, i) => {
-  const dot = document.createElement("div");
-  dot.classList.add("dot");
-  if (i === 0) dot.classList.add("active");
-  dotNav.appendChild(dot);
-
-  dot.addEventListener("click", () => {
-    if (isDesktop) goToSection(i);
-    else scrollToSection(i);
-  });
-});
-
-// === Desktop ===
-if (isDesktop) {
-  window.addEventListener("wheel", onWheel);
-
-  // for touch
-  let touchStartY = 0;
-  let touchEndY = 0;
-
-  window.addEventListener("touchstart", (e) => {
-    touchStartY = e.changedTouches[0].clientY;
-  });
-
-  window.addEventListener("touchend", (e) => {
-    touchEndY = e.changedTouches[0].clientY;
-    handleTouchSwipe();
-  });
-
-  function onWheel(e) {
-    if (isAnimating) return;
-
-    syncCurrentSection();
-
-    if (e.deltaY > 0 && currentSection < sections.length - 1) {
-      goToSection(currentSection + 1);
-    } else if (e.deltaY < 0 && currentSection > 0) {
-      goToSection(currentSection - 1);
-    }
-  }
-
-  function handleTouchSwipe() {
-    if (isAnimating) return;
-
-    syncCurrentSection();
-
-    const swipeDistance = touchEndY - touchStartY;
-    const swipeThreshold = 50; 
-
-    if (swipeDistance < -swipeThreshold && currentSection < sections.length - 1) {
-      goToSection(currentSection + 1);
-    } else if (swipeDistance > swipeThreshold && currentSection > 0) {
-      goToSection(currentSection - 1);
-    }
-  }
-} else {
-  // === Mobile ===
-  document.body.style.overflow = "auto"; 
-  dotNav.style.display = "none"; 
-  toolSec.classList.add("active"); 
-}
-
-
-function goToSection(index) {
-  if (isAnimating) return;
-  isAnimating = true;
-
-  gsap.to(window, {
-    duration: 1,
-    scrollTo: { y: sections[index], offsetY: 0 },
-    onComplete: () => {
-      isAnimating = false;
-      currentSection = index;
-      updateDots();
-      updateToolBar();
-    },
-    ease: "power2.inOut"
-  });
-}
-
-function scrollToSection(index) {
-  const top = sections[index].offsetTop;
-  window.scrollTo({ top, behavior: "smooth" });
-}
-
-function updateDots() {
-  document.querySelectorAll(".dot").forEach((dot, i) => {
-    dot.classList.toggle("active", i === currentSection);
-  });
-}
-
-function updateToolBar() {
-  if (currentSection === 0) {
-    toolSec.classList.remove("active");
-  } else {
-    toolSec.classList.add("active");
-  }
-}
-
-
-window.addEventListener("resize", () => {
-  const nowDesktop = window.innerWidth > 767.98;
-  if (nowDesktop !== isDesktop) location.reload();
-});
-
-
-
-// === Section Switch Function ===
-function goToSection(index) {
-  if (isAnimating) return;
-  isAnimating = true;
-
-  gsap.to(window, {
-    duration: 1,
-    scrollTo: { y: sections[index], offsetY: 0 },
-    ease: "power2.inOut",
-    onComplete: () => {
-      isAnimating = false;
-      currentSection = index;
-      updateDots();
-      updateToolBar();
-    },
-  });
-}
-
-function updateDots() {
-  document.querySelectorAll(".dot").forEach((dot, i) => {
-    dot.classList.toggle("active", i === currentSection);
-  });
-}
-
-function updateToolBar() {
-  if (currentSection === 0) {
-    toolSec.classList.remove("active");
-  } else {
-    toolSec.classList.add("active");
-  }
-}
-
-function syncCurrentSection() {
-  let scrollY = window.scrollY;
-  let closestIndex = 0;
-  let minDiff = Infinity;
-
-  sections.forEach((sec, i) => {
-    const diff = Math.abs(sec.offsetTop - scrollY);
-    if (diff < minDiff) {
-      minDiff = diff;
-      closestIndex = i;
-    }
-  });
-
-  currentSection = closestIndex;
-}
-
-// === KV Section ===
-gsap.set(".kv-sec-bg", {
-  scale: 1.05,
-  opacity: 0,
-  filter: "blur(8px)"
-});
-
-gsap.to(".kv-sec-bg", {
-  scale: 1.1,
-  opacity: 1,
-  filter: "blur(0px)",
-  duration: 2,
-  ease: "power2.out",
-  scrollTrigger: {
-    trigger: ".kv-sec",
-    start: "top 80%",
-    toggleActions: "restart none none reverse"
-  }
-});
-
-const kvBg = document.querySelector(".kv-sec-bg");
-const kvSec = document.querySelector(".kv-sec");
-
-kvSec.addEventListener("mousemove", (e) => {
-  const rect = kvSec.getBoundingClientRect();
-  const relX = e.clientX - rect.left;
-  const relY = e.clientY - rect.top;
-
-  const moveX = (relX / rect.width - 0.5) * 2;
-  const moveY = (relY / rect.height - 0.5) * 2;
-
-  gsap.to(kvBg, {
-    x: moveX * 30,       
-    y: moveY * 30,       
-    scale: 1.12,         
-    duration: 0.6,
-    ease: "power2.out"
-  });
-});
-
-kvSec.addEventListener("mouseleave", () => {
-  gsap.to(kvBg, {
-    x: 0,
-    y: 0,
-    scale: 1.1,
-    duration: 1,
-    ease: "power2.out"
-  });
-});
 
 // === Game Soft Section ===
 const gameSoftSecs = document.querySelectorAll(".game-soft-sec");
@@ -266,26 +144,19 @@ let gameDemoSlider = new Swiper(".gamesoft-demo-slider", {
         delay: 2500,
         disableOnInteraction: true,
     },
-    pagination: {
-        el: ".gamesoft-slider-pagination",
-        clickable: true,
-        renderBullet: function (index, className) {
-          return '<span class="' + className + '">' + "</span>";
-        }
-    },
 });
 
 // NaviDots Detected
-let lastSyncTime = 0;
+// let lastSyncTime = 0;
 
-window.addEventListener("scroll", () => {
-  if (!isDesktop) return;
+// window.addEventListener("scroll", () => {
+//   if (!isDesktop) return;
 
-  const now = Date.now();
-  if (now - lastSyncTime < 200) return; 
-  lastSyncTime = now;
+//   const now = Date.now();
+//   if (now - lastSyncTime < 200) return; 
+//   lastSyncTime = now;
 
-  syncCurrentSection(); 
-  updateDots();
-  updateToolBar();
-});
+//   syncCurrentSection(); 
+//   updateDots();
+//   updateToolBar();
+// });
