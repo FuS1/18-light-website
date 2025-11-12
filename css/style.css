@@ -767,6 +767,9 @@
   border-radius: 10px;
   border: 1px solid #e6e6e6;
 }
+.game-prop-tag-list.h-center {
+  justify-content: center;
+}
 .game-prop-tag-list.nano > li {
   background-color: #507B86;
 }
@@ -1260,6 +1263,7 @@
   z-index: 2;
   justify-content: space-around;
   transform: translate(0, -50%);
+  overflow: hidden;
 }
 .game-page-slider-preview .swiper-slide {
   position: relative;
@@ -1269,6 +1273,7 @@
   display: flex;
   justify-content: center;
   border: 3px solid #6b6b6b;
+  cursor: pointer;
 }
 .game-page-slider-preview .swiper-slide.active {
   border-color: #F73E3E;
@@ -1287,6 +1292,12 @@
 .game-info-sec.nano {
   background-color: #292E33;
 }
+.game-info-sec.pronty {
+  background-color: #041223;
+}
+.game-info-sec.judgement {
+  background-color: #D0AA65;
+}
 .game-info-sec > .content-area {
   display: flex;
   flex-direction: column;
@@ -1298,6 +1309,88 @@
   font-size: 42px;
   font-weight: 900;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  margin: 0 0 24px 0;
+}
+
+.selling-resource-list {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 30px 30px;
+  margin: 75px 0 52px 0;
+}
+.selling-resource-list > li {
+  list-style: none;
+}
+
+.selling-resource-link {
+  display: block;
+  padding: 12px 24px;
+  font-size: 16px;
+  color: #fff;
+  text-decoration: none;
+  background-color: #AA3434;
+  box-shadow: 0 4px 4px rgb(0, 0, 0.25);
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.game-info-text {
+  font-size: 16px;
+  color: #fff;
+  margin: 0 0 24px 0;
+}
+.game-info-text.judgement {
+  color: #2F2719;
+}
+
+.game-info-cnt-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 4%;
+  margin: 25px 0;
+  justify-content: flex-start;
+  width: 100%;
+  position: relative;
+}
+.game-info-cnt-wrapper.straight {
+  flex-direction: column;
+}
+.game-info-cnt-wrapper.for-form {
+  justify-content: center;
+}
+.game-info-cnt-wrapper.for-form > #mc_embed_shell::after {
+  display: none;
+}
+
+.infobox {
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  display: flex;
+}
+.infobox > img {
+  width: 100%;
+  display: block;
+  border-radius: 8px;
+}
+.infobox.major {
+  width: 60%;
+}
+.infobox.minor {
+  width: 36%;
+}
+.infobox.half {
+  width: 48%;
+}
+
+.game-infobox-title {
+  font-size: 24px;
+  color: #7B9CD0;
+  margin: 0 0 10px 0;
+}
+.game-infobox-title.judgement {
+  color: #AA3434;
 }
 
 /* Keyframe */

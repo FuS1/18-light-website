@@ -784,6 +784,9 @@
         border-radius: 10px;
         border: 1px solid #e6e6e6;
     }
+    &.h-center {
+        justify-content: center;
+    }
     &.nano {
         > li {
             background-color: #507B86;
@@ -1250,6 +1253,7 @@
     z-index: 2;
     justify-content: space-around;
     transform: translate(0,-50%);
+    overflow: hidden;
     .swiper-slide {
         position: relative;
         width: 8%;
@@ -1258,6 +1262,7 @@
         display: flex;
         justify-content: center;
         border: 3px solid #6b6b6b;
+        cursor: pointer;
         &.active {
             border-color: #F73E3E;
         }
@@ -1274,6 +1279,12 @@
     &.nano {
         background-color: #292E33;
     }
+    &.pronty {
+        background-color: #041223;
+    }
+    &.judgement {
+        background-color: #D0AA65;
+    }
     > .content-area {
         display: flex;
         flex-direction: column;
@@ -1285,6 +1296,82 @@
     font-size: 42px;
     font-weight: 900;
     text-shadow: 0 4px 4px rgba(0,0,0,0.25);
+    margin: 0 0 24px 0;
+}
+.selling-resource-list {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 30px 30px;
+    margin: 75px 0 52px 0;
+    > li {
+        list-style: none;
+    }
+}
+.selling-resource-link {
+    display: block;
+    padding: 12px 24px;
+    font-size: 16px;
+    color: #fff;
+    text-decoration: none;
+    background-color: #AA3434;
+    box-shadow: 0 4px 4px rgba(0,0,00.25);
+    border-radius: 8px;
+    transition: .3s;
+}
+.game-info-text {
+    font-size: 16px;
+    color: #fff;
+    margin: 0 0 24px 0;
+    &.judgement {
+        color: #2F2719;
+    }
+}
+.game-info-cnt-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 4%;
+    margin: 25px 0;
+    justify-content: flex-start;
+    width: 100%;
+    position: relative;
+    &.straight {
+        flex-direction: column;
+    }
+    &.for-form {
+        justify-content: center;
+        > #mc_embed_shell::after {
+            display: none;
+        }
+    }
+}
+.infobox {
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
+    > img {
+        width: 100%;
+        display: block;
+        border-radius: 8px;
+    }
+    &.major {
+        width: 60%;
+    }
+    &.minor {
+        width: 36%;
+    }
+    &.half {
+        width: 48%;
+    }
+}
+.game-infobox-title {
+    font-size: 24px;
+    color: #7B9CD0;
+    margin: 0 0 10px 0;
+    &.judgement {
+        color: #AA3434;
+    }
 }
 
 /* Keyframe */
