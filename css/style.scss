@@ -52,8 +52,11 @@
   }
 }
 .content-area {
-    width: 90%;
+    width: 1200px;
     height: 100%;
+    @include xl(){
+        width: calc(100% - 40px);
+    }
 }
 
 /* KV sec */
@@ -773,9 +776,10 @@
 }
 .game-prop-tag-list {
     display: flex;
-    gap: 0 8px;
+    gap: 8px 8px;
     width: 100%;
     justify-content: flex-end;
+    flex-wrap: wrap;
     > li {
         list-style: none;
         font-size: 14px;
@@ -1304,6 +1308,7 @@
     justify-content: center;
     gap: 30px 30px;
     margin: 75px 0 52px 0;
+    flex-wrap: wrap;
     > li {
         list-style: none;
     }
@@ -1335,6 +1340,9 @@
     justify-content: flex-start;
     width: 100%;
     position: relative;
+    @include md(){
+        gap: 30px 0;
+    }
     &.straight {
         flex-direction: column;
     }
@@ -1357,12 +1365,21 @@
     }
     &.major {
         width: 60%;
+        @include md(){
+            width: 100%;
+        }
     }
     &.minor {
         width: 36%;
+        @include md(){
+            width: 100%;
+        }
     }
     &.half {
         width: 48%;
+        @include md(){
+            width: 100%;
+        }
     }
 }
 .game-infobox-title {
